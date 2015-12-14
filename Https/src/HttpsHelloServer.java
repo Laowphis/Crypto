@@ -3,6 +3,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpsConfigurator;
 import com.sun.net.httpserver.HttpsServer;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -10,6 +11,7 @@ import java.security.GeneralSecurityException;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.net.ssl.SSLContext;
 
 /**
@@ -35,7 +37,11 @@ public class HttpsHelloServer {
 
         private static final String PLAIN_HELLO = "<h1 align='center'>HELLO</h1>";
         private static final String PERSONNAL_HELLO = "<h1 align='center'>HELLO %s %s</h1>";
+        
+        private static final String UPLOAD = "upload de %s effectuée";
 
+        private static String UP="upload";
+        
         /**
          * Méthode de gestion des requètes vers le service hello
          * @param he l'objet encapsulant la requète et la réponse
@@ -44,13 +50,21 @@ public class HttpsHelloServer {
         public void handle(HttpExchange he) throws IOException {
             // récupération des paramètres de requètes
             String query = he.getRequestURI().getQuery();
+            
             // récupération des en-têtes de la réponse HTTP
             Headers responseHeaders = he.getResponseHeaders();
             responseHeaders.set("Content-Type", "text/html");
             // Fabrication de la réponse (ordinaire ou personnalisée)
             String response = PLAIN_HELLO;
             if (query != null) {
-                response = parseHelloQuery(query);
+            	//switch(parseQuery(query)){
+            	//case UP:
+            		//response = parseUploadQuery(query);
+            		//break;
+            	//default:
+            		response = parseHelloQuery(query);
+            		//break;
+            	//} 
             }
             byte[] responseBytes = response.getBytes();
             // préparation de la réponse
@@ -62,6 +76,21 @@ public class HttpsHelloServer {
             out.close();
         }
 
+        private static String parseQuery(String query){
+        	String[] params = query.split("\\s=*\\s*");
+        	String querry = params[0].split("\\s*=\\s*")[1];
+        	return querry;
+        }
+        
+        private static String parseUploadQuery(String query){
+        	String[] params = query.split("\\s*\\&\\s*");
+            // récupération upload
+            String upload = params[0].split("\\s*=\\s*")[1];
+            // récupération nom
+            //String nom = params[0].split("\\s*=\\s*")[1];
+            return String.format(UPLOAD, upload);
+        }
+        
         /**
          * Méthode d'aide pour la récupération des valeurs des paramètres nom et prenom
          * @param query les paramètres de requète :
