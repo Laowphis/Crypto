@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -21,7 +22,7 @@ public class HttpsFileServer {
 	
     
     /**
-     * Classe implémentant le gestionnaire de requètes vers le service hello
+     * Classe implémentant le gestionnaire de requètes vers le service file
      */
     static class FileHandler implements HttpHandler {
 
@@ -56,15 +57,21 @@ public class HttpsFileServer {
            
             //response = String.format(TEST, parseQuery(query));
             
-            if (query != null) {
+            File filein,fileout;
+           
+            
+            if (query != null) { 
+            	if(parseQuery(query).equals("upload")){
+            		response = parseUploadQuery(query);
+            		filein = new File("client/" +  parseFileQuery(query));
+            		//OutputFile("server/", parseFileQuery(query));
+            	}
+            		
+                if(parseQuery(query).equals("download")){
+                	response = parseDownloadQuery(query);
+                	filein = new File("server/" + parseFileQuery(query));
                 
-            	response = String.format(TEST, parseQuery(query));
-            	/*
-            	if(parseQuery(query) == "upload")
-            		response = String.format(TEST, parseQuery(query));
-            		//response = parseUploadQuery(query);
-                if(parseQuery(query) =="download")
-                response = parseDownloadQuery(query);*/
+                }
             }
             byte[] responseBytes = response.getBytes();
             // préparation de la réponse
@@ -80,6 +87,12 @@ public class HttpsFileServer {
         private static String parseQuery(String query){
         	String[] params = query.split("\\s=*\\s*");
         	String querry = params[0].split("\\s*=\\s*")[0];
+        	return querry;
+        }
+        
+        private static String parseFileQuery(String query){
+        	String[] params = query.split("\\s=*\\s*");
+        	String querry = params[1].split("\\s*=\\s*")[0];
         	return querry;
         }
         
