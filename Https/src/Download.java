@@ -44,7 +44,7 @@ public class Download extends AbstractAction {
 			e1.printStackTrace();
 		}
 		ishere(fi);
-		copyFile(fi,fout); 
+		copyFile(fi,fout);
 	} 
 	
 	/**
@@ -57,7 +57,7 @@ public class Download extends AbstractAction {
 	}
 	
 	/**
-	 * Méthode permettant de savoir si le fichier existe ou non.
+	 * Méthode permettant de savoir si le fichier téléchargé existe ou non.
 	 * @param file est le fichier dont on veut connaître l'existence ou non
 	 * @return true si le fichier existe
 	 * @return false si le fichier n'existe pas
@@ -75,8 +75,8 @@ public class Download extends AbstractAction {
 	}
 
 	/**
-	 * Méthode permettant de copier un fichier source donc du server vers un fichier destination donc vers un client
-	 * @param source1 est le fichier provenant du server et à copier 
+	 * Méthode permettant de copier un fichier source donc du server vers un fichier destination donc vers un client.
+	 * @param source1 est le fichier provenant du server et à copier
 	 * @param dest1 est le fichier copié dans le client
 	 */
 	
