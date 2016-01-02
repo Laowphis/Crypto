@@ -44,7 +44,7 @@ public class Download extends AbstractAction {
 			e1.printStackTrace();
 		}
 		ishere(fi);
-		copyFile(fi,fout);
+		copyFile(fi,fout); 
 	} 
 	
 	/**
