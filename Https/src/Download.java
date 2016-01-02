@@ -27,7 +27,7 @@ public class Download extends AbstractAction {
 	}
 	
 	/**
-	 * Méthode permettant de 
+	 * Méthode permettant de savoir si l'évènement demandé a bien été effectué.
 	 * @param e est un évènement qui indique qu'une action de composant définie est produite.
 	 */
 	
