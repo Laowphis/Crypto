@@ -1,3 +1,4 @@
+package Client;
 
 
 import java.awt.Dimension;
@@ -8,8 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+import Common.Download;
+import Common.Upload;
+
 public class IntHumMach extends JFrame{
-	static String text;
+	public static String text;
 	static JTextField textField = new JTextField();
 	
 	public IntHumMach(){

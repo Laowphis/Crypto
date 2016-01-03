@@ -1,3 +1,4 @@
+package Common;
 
 
 import java.awt.event.ActionEvent;
@@ -7,12 +8,15 @@ import java.io.IOException;
 
 import javax.swing.AbstractAction;
 
+import Client.IntHumMach;
+
 
 public class Upload extends AbstractAction {
 	String namefile = null ;
 	
 	public Upload(String texte){
 		super(texte);
+		namefile=texte;
 	}
 	
 	public void actionPerformed(ActionEvent e) { 
@@ -29,10 +33,21 @@ public class Upload extends AbstractAction {
 		}
 		ishere(fi);
 		copyFile(fi,fout);
-
-		
-
 	} 
+
+	public void up(){
+		System.out.println("le nom du fichier est : " + namefile);
+		File fi = new File(namefile);
+		File fout= new File("server/"+fi.getName());
+		try {
+			fout.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ishere(fi);
+		copyFile(fi,fout);
+	}
 	
 	public String getLink(){
 		return namefile;

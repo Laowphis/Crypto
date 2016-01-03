@@ -1,3 +1,4 @@
+package Serveur;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -8,6 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.net.ssl.SSLContext;
+
+import Common.Download;
+import Common.Upload;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -63,14 +67,14 @@ public class HttpsFileServer {
             if (query != null) { 
             	if(parseQuery(query).equals("upload")){
             		response = parseUploadQuery(query);
-            		filein = new File("client/" +  parseFileQuery(query));
-            		//OutputFile("server/", parseFileQuery(query));
-            	}
+            		Upload up = new Upload(response);
+            		up.up();
+            	 }
             		
                 if(parseQuery(query).equals("download")){
                 	response = parseDownloadQuery(query);
-                	filein = new File("server/" + parseFileQuery(query));
-                
+                	Download down = new Download(response);
+                	down.down();
                 }
             }
             byte[] responseBytes = response.getBytes();
@@ -106,7 +110,8 @@ public class HttpsFileServer {
         	String[] params = query.split("\\s*\\&\\s*");
             // récupération upload
             String upload = params[0].split("\\s*=\\s*")[1];
-            return String.format(UPLOAD, upload);
+            return upload;
+            // return String.format(UPLOAD, upload);
         }
         
         /**
@@ -119,7 +124,8 @@ public class HttpsFileServer {
             String[] params = query.split("\\s*\\&\\s*");
             // récupération download
             String download = params[0].split("\\s*=\\s*")[1];
-            return String.format(DOWNLOAD, download);
+            return download;
+            // return String.format(DOWNLOAD, download);
         }
     }
     
@@ -166,7 +172,8 @@ public class HttpsFileServer {
     }
     
     public static void main(String[] args) {
-        try {
+  
+    	try {
             new HttpsFileServer("localhost", 1337);
         } catch (IOException ex) {
             Logger.getLogger(HttpsFileServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,4 +181,5 @@ public class HttpsFileServer {
             Logger.getLogger(HttpsFileServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+ 
 }
