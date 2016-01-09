@@ -2,11 +2,14 @@ package Common;
 
 
 import java.awt.event.ActionEvent;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,6 +33,8 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.ManagerFactoryParameters;
 import javax.net.ssl.SSLContext;
+
+import org.omg.CORBA.portable.InputStream;
 
 public class Download extends AbstractAction {
 	String namefile = null;
@@ -109,8 +114,8 @@ public class Download extends AbstractAction {
 	// HTTP GET request
 		private void sendGet() throws Exception {
 
-			//final String url = "https://localhost:1337/file?download="+namefile;
-			final String url = "http://www.google.com/search?q=mkyong";
+			final String url = "https://localhost:1337/file?download="+namefile;
+			//final String url = "http://www.google.com/search?q=mkyong";
 			
 			URL obj = new URL(url);
 			final HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
@@ -144,7 +149,7 @@ public class Download extends AbstractAction {
 		}
 	
 	
-	public void down(){
+	public void down() throws MalformedURLException, IOException{
 		System.out.println("le nom du fichier est : " + namefile);
 		File fi = new File(namefile);
 		File fout= new File("client/"+fi.getName());
@@ -155,7 +160,7 @@ public class Download extends AbstractAction {
 			e1.printStackTrace();
 		}
 		ishere(fi);
-		copyFile(fi,fout);
+		copyFile(fi);
 	}
 	
 	public String getLink(){
@@ -174,9 +179,9 @@ public class Download extends AbstractAction {
 		}
 	}
 
-			public  void copyFile(File source1, File dest1){
+			public  void copyFile(File source1) throws MalformedURLException, IOException{
 				if(ishere(source1)){
-					File source =new File("server/" + source1.getName());
+					/*File source =new File("server/" + source1.getName());
 					File dest =new File("client/" + dest1.getName());
 				try{
 					// Declaration et ouverture des flux
@@ -205,6 +210,15 @@ public class Download extends AbstractAction {
 					e.printStackTrace();
 				}
 
-			}
+			}*/
+				
+				InputStream in = (InputStream) new URL("localhost/"+namefile).openStream();
+				OutputStream out = new BufferedOutputStream(new FileOutputStream(namefile));
+				byte[] buf = new byte[1024];
+				int n;
+				while ((n=in.read(buf,0,buf.length))>0) out.write(buf,0,n);
+				out.close();
+				in.close();
+				}
 	}
 }

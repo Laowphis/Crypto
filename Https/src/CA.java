@@ -29,15 +29,15 @@ import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.GeneralName;
 import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.KeyUsage;
+import org.bouncycastle.jcajce.provider.symmetric.VMPCKSA3.Base;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.x509.X509V3CertificateGenerator;
+import org.bouncycastle.x509.*;
 import org.bouncycastle.x509.extension.SubjectKeyIdentifierStructure;
-import x509.an10.PKIValidator;
-
-/**
+/***
  * Une classe implémentant une autorité de certification
  * @author P. Guichet & J. Lepagnot
  */
+@SuppressWarnings("deprecation")
 public class CA {
 
         // Le DN du CA
@@ -249,8 +249,8 @@ public class CA {
             // Génération du certificat serveur
             PublicKey pk = caKp.getPublic();
             X509Certificate srvCert = ca.generateServerCertificate(
-                    "CN=secure.entreprise.fr, OU=FST, O=UHA, L=Mulhouse, ST=68093, C=FR",
-                    "secure.entreprise.com",
+                    "CN=localhost, OU=FST, O=UHA, L=Mulhouse, ST=68093, C=FR",
+                    "localhost",
                     pk);
             // Exportation du certification du serveur
             CA.exportCertificate("srv.cer", srvCert);
