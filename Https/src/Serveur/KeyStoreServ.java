@@ -29,7 +29,7 @@ import javax.security.auth.x500.X500Principal;
  */
 public class KeyStoreServ {
 
-    // Le keystore de l'instance
+    //  Le keystore de l'instance
     private KeyStore ks;
 
     // Associations des OID pouvant apparaître dans un nom distingué
@@ -227,19 +227,19 @@ public class KeyStoreServ {
     public static void main(String[] args) {
         try {
             // Nouvelle instance de la classe initialisée avec le fichier store.ks
-            KeyStoreServ kst = new KeyStoreServ("JCEKS", "store.ks", "azerty".toCharArray());
+            KeyStoreServ kst = new KeyStoreServ("JCEKS", "ksca.ks", "azerty".toCharArray());
 
             // Liste les certificats et clés privées du keystore
             System.out.println(kst.listCertificates());
 
             // Insère le certificat msca.cer en lui associant l'alias key7
-            kst.importCertificates(new File("msca.cer"), new String[]{"key7"});
+            kst.importCertificates(new File("ca.cer"), new String[]{"key7"});
 
             // Sauvegarde le keystore dans le fichier kstore.ks avec un nouveau mot de passe
-            kst.save(new File("kstore.ks"), "x75DT7Rdx98tdZK".toCharArray());
+            kst.save(new File("kssrv.ks"), "x4TRDf4JHY578pth".toCharArray());
 
             // Nouvelle instance de la classe initialisée avec le fichier kstore.ks
-            kst = new KeyStoreServ("JCEKS", "kstore.ks", "x75DT7Rdx98tdZK".toCharArray());
+            kst = new KeyStoreServ("JCEKS", "kssrv.ks", "x4TRDf4JHY578pth".toCharArray());
 
             // Liste les certificats et clés privées du nouveau keystore
             System.out.println(kst.listCertificates());

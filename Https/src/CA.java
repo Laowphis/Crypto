@@ -126,7 +126,7 @@ public class CA {
                 // le début de la période de validité
                 Date notBefore = calendar.getTime();
                 certGen.setNotBefore(notBefore);
-                calendar.set(2010, 11, 31);
+                calendar.set(2020, 11, 31);
                 // la fin de la période de validité
                 certGen.setNotAfter(calendar.getTime());
                 // la clé publique enveloppée dans le certificat
@@ -249,8 +249,8 @@ public class CA {
             // Génération du certificat serveur
             PublicKey pk = caKp.getPublic();
             X509Certificate srvCert = ca.generateServerCertificate(
-                    "CN=localhost, OU=FST, O=UHA, L=Mulhouse, ST=68093, C=FR",
-                    "localhost",
+                    "CN=//localhost, OU=FST, O=UHA, L=Mulhouse, ST=68093, C=FR",
+                    "//localhost",
                     pk);
             // Exportation du certification du serveur
             CA.exportCertificate("srv.cer", srvCert);

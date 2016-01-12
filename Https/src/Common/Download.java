@@ -14,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,13 +50,13 @@ public class Download extends AbstractAction {
 		IntHumMach.affichetext();
 		namefile=IntHumMach.text;
 		
-		try {
-			System.out.println("enter send get");
-			sendGet();
-		} catch (Exception e1) {
+		//try {
+		//	System.out.println("enter send get");
+			//sendGet();
+		//} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		//	e1.printStackTrace();
+		//}
 		
 		/*
 		try {
@@ -108,6 +110,16 @@ public class Download extends AbstractAction {
 		ishere(fi);
 		copyFile(fi,fout);
 		*/
+		File fi = new File(namefile);
+		try {
+			copyFile(fi);
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	} 
 	
 	
@@ -180,7 +192,7 @@ public class Download extends AbstractAction {
 	}
 
 			public  void copyFile(File source1) throws MalformedURLException, IOException{
-				if(ishere(source1)){
+				
 					/*File source =new File("server/" + source1.getName());
 					File dest =new File("client/" + dest1.getName());
 				try{
@@ -211,14 +223,11 @@ public class Download extends AbstractAction {
 				}
 
 			}*/
-				
-				InputStream in = (InputStream) new URL("localhost/"+namefile).openStream();
-				OutputStream out = new BufferedOutputStream(new FileOutputStream(namefile));
-				byte[] buf = new byte[1024];
-				int n;
-				while ((n=in.read(buf,0,buf.length))>0) out.write(buf,0,n);
-				out.close();
-				in.close();
+				System.out.println("fdv");
+				URL urlimage = new URL(namefile);
+				ReadableByteChannel rbc = Channels.newChannel(urlimage.openStream());
+				FileOutputStream fos = new FileOutputStream("client/image.jpg");
+				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 				}
-	}
+	
 }

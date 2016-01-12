@@ -37,8 +37,8 @@ public class HttpsFileServer {
         private static final String TEST = "Bonjour </br> test arg   %s   ";
         
         static {
-            System.setProperty("javax.net.ssl.keyStore", "kssrv.ks");
-            System.setProperty("javax.net.ssl.keyStorePassword", "x4TRDf4JHY578pth");
+            System.setProperty("javax.net.ssl.keyStore", "ksca.ks");
+            System.setProperty("javax.net.ssl.keyStorePassword","x4TRDf4JHY578pth");
             System.setProperty("javax.net.ssl.keyStoreType", "JCEKS");
             System.setProperty("javax.net.debug", "all");
         }
